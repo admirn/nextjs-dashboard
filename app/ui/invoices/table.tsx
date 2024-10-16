@@ -3,6 +3,8 @@ import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
+import { Suspense } from 'react';
+import { CardSkeleton } from '../skeletons';
 
 export default async function InvoicesTable({
   query,
@@ -47,8 +49,10 @@ export default async function InvoicesTable({
                     <p>{formatDateToLocal(invoice.date)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={invoice.id} />
-                    <DeleteInvoice id={invoice.id} />
+                    <Suspense fallback={<CardSkeleton />}>
+                      <UpdateInvoice id={invoice.id} />
+                      <DeleteInvoice id={invoice.id} />
+                    </Suspense>
                   </div>
                 </div>
               </div>
